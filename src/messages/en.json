@@ -1,0 +1,37 @@
+{
+    "home": {
+        "title": "SmartCV Hub",
+        "subtitle": "AI-Powered CV Builder with ATS Optimization",
+        "createCV": "Create CV",
+        "analyzeCV": "Analyze CV",
+        "features": {
+            "templates": {
+                "title": "Modern Templates",
+                "description": "Professional, ATS-friendly designs"
+            },
+            "ai": {
+                "title": "AI Analysis",
+                "description": "Intelligent suggestions powered by AI"
+            },
+            "ats": {
+                "title": "ATS Scoring",
+                "description": "Real-time compatibility checking"
+            }
+        }
+    },
+    "cv_builder": {
+        "title": "CV Builder",
+        "personal_info": "Personal Information",
+        "experience": "Experience",
+        "education": "Education",
+        "skills": "Skills",
+        "preview": "Preview",
+        "download": "Download PDF"
+    },
+    "analyzer": {
+        "title": "CV Analyzer",
+        "upload": "Upload your CV",
+        "analyze": "Analyze",
+        "score": "ATS Score"
+    }
+}

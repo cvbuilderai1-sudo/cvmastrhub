@@ -1,0 +1,37 @@
+{
+    "home": {
+        "title": "SmartCV Hub",
+        "subtitle": "منشئ السيرة الذاتية بالذكاء الاصطناعي مع تحسين ATS",
+        "createCV": "إنشاء سيرة ذاتية",
+        "analyzeCV": "تحليل السيرة الذاتية",
+        "features": {
+            "templates": {
+                "title": "قوالب حديثة",
+                "description": "تصاميم احترافية متوافقة مع ATS"
+            },
+            "ai": {
+                "title": "تحليل الذكاء الاصطناعي",
+                "description": "اقتراحات ذكية مدعومة بالذكاء الاصطناعي"
+            },
+            "ats": {
+                "title": "نقاط ATS",
+                "description": "فحص التوافق في الوقت الفعلي"
+            }
+        }
+    },
+    "cv_builder": {
+        "title": "منشئ السيرة الذاتية",
+        "personal_info": "المعلومات الشخصية",
+        "experience": "الخبرة",
+        "education": "التعليم",
+        "skills": "المهارات",
+        "preview": "معاينة",
+        "download": "تحميل PDF"
+    },
+    "analyzer": {
+        "title": "محلل السيرة الذاتية",
+        "upload": "قم بتحميل سيرتك الذاتية",
+        "analyze": "تحليل",
+        "score": "نقاط ATS"
+    }
+}

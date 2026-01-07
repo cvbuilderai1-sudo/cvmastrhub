@@ -1,0 +1,37 @@
+{
+    "home": {
+        "title": "SmartCV Hub",
+        "subtitle": "Créateur de CV alimenté par l'IA avec optimisation ATS",
+        "createCV": "Créer un CV",
+        "analyzeCV": "Analyser un CV",
+        "features": {
+            "templates": {
+                "title": "Modèles Modernes",
+                "description": "Designs professionnels compatibles ATS"
+            },
+            "ai": {
+                "title": "Analyse IA",
+                "description": "Suggestions intelligentes alimentées par l'IA"
+            },
+            "ats": {
+                "title": "Score ATS",
+                "description": "Vérification de compatibilité en temps réel"
+            }
+        }
+    },
+    "cv_builder": {
+        "title": "Créateur de CV",
+        "personal_info": "Informations Personnelles",
+        "experience": "Expérience",
+        "education": "Éducation",
+        "skills": "Compétences",
+        "preview": "Aperçu",
+        "download": "Télécharger PDF"
+    },
+    "analyzer": {
+        "title": "Analyseur de CV",
+        "upload": "Téléchargez votre CV",
+        "analyze": "Analyser",
+        "score": "Score ATS"
+    }
+}
