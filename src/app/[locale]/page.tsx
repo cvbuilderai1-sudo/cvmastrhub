@@ -1,57 +1,88 @@
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 
-export default function HomePage() {
+export default function HomePage({ params }: { params: { locale: string } }) {
     return (
-        <div className="min-h-screen flex flex-col items-center justify-center p-8">
-            <div className="max-w-4xl mx-auto text-center space-y-8">
-                <h1 className="text-6xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                    SmartCV Hub
-                </h1>
+        <div className="min-h-screen flex flex-col items-center justify-center px-4">
+            {/* Hero Section */}
+            <div className="max-w-5xl mx-auto text-center">
+                {/* Glass Card */}
+                <div className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-3xl p-12 shadow-2xl">
+                    <h1 className="text-6xl font-bold text-white mb-6 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                        SmartCV Hub
+                    </h1>
+                    <p className="text-xl text-gray-200 mb-12 max-w-2xl mx-auto">
+                        Create professional CVs with AI assistance, analyze ATS compatibility, and enhance your photos - all in one place.
+                    </p>
 
-                <p className="text-xl text-gray-600 dark:text-gray-300">
-                    AI-Powered CV Builder with ATS Optimization
-                </p>
+                    {/* Tools Grid */}
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
+                        {/* CV Builder */}
+                        <Link
+                            href={`/${params.locale}/tools/cv-builder`}
+                            className="group relative backdrop-blur-lg bg-white/5 border border-white/10 rounded-2xl p-8 hover:bg-white/10 hover:border-white/20 transition-all duration-300 transform hover:scale-105"
+                        >
+                            <div className="text-5xl mb-4">📝</div>
+                            <h3 className="text-2xl font-semibold text-white mb-3">CV Builder</h3>
+                            <p className="text-gray-300">
+                                Create stunning CVs with AI-powered suggestions and professional templates
+                            </p>
+                        </Link>
 
-                <div className="flex gap-4 justify-center flex-wrap">
-                    <Link
-                        href="/tools/cv-builder"
-                        className="px-8 py-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-semibold shadow-lg hover:shadow-xl"
-                    >
-                        Create CV
-                    </Link>
+                        {/* Photo Editor */}
+                        <Link
+                            href={`/${params.locale}/tools/photo-editor`}
+                            className="group relative backdrop-blur-lg bg-white/5 border border-white/10 rounded-2xl p-8 hover:bg-white/10 hover:border-white/20 transition-all duration-300 transform hover:scale-105"
+                        >
+                            <div className="text-5xl mb-4">📸</div>
+                            <h3 className="text-2xl font-semibold text-white mb-3">Photo Editor</h3>
+                            <p className="text-gray-300">
+                                Enhance and crop your professional photo with smart AI tools
+                            </p>
+                        </Link>
 
-                    <Link
-                        href="/tools/analyzer"
-                        className="px-8 py-4 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors font-semibold shadow-lg hover:shadow-xl"
-                    >
-                        Analyze CV
-                    </Link>
-                </div>
-
-                <div className="grid md:grid-cols-3 gap-6 mt-12">
-                    <div className="glass p-6 rounded-xl">
-                        <div className="text-4xl mb-4">🎨</div>
-                        <h3 className="font-bold text-lg mb-2">Modern Templates</h3>
-                        <p className="text-sm text-gray-600 dark:text-gray-400">
-                            Professional, ATS-friendly designs
-                        </p>
+                        {/* ATS Analyzer */}
+                        <Link
+                            href={`/${params.locale}/tools/cv-analyzer`}
+                            className="group relative backdrop-blur-lg bg-white/5 border border-white/10 rounded-2xl p-8 hover:bg-white/10 hover:border-white/20 transition-all duration-300 transform hover:scale-105"
+                        >
+                            <div className="text-5xl mb-4">🎯</div>
+                            <h3 className="text-2xl font-semibold text-white mb-3">ATS Analyzer</h3>
+                            <p className="text-gray-300">
+                                Check your CV's compatibility with Applicant Tracking Systems
+                            </p>
+                        </Link>
                     </div>
 
-                    <div className="glass p-6 rounded-xl">
-                        <div className="text-4xl mb-4">🤖</div>
-                        <h3 className="font-bold text-lg mb-2">AI Analysis</h3>
-                        <p className="text-sm text-gray-600 dark:text-gray-400">
-                            Intelligent suggestions powered by AI
-                        </p>
-                    </div>
-
-                    <div className="glass p-6 rounded-xl">
-                        <div className="text-4xl mb-4">📊</div>
-                        <h3 className="font-bold text-lg mb-2">ATS Scoring</h3>
-                        <p className="text-sm text-gray-600 dark:text-gray-400">
-                            Real-time compatibility checking
-                        </p>
+                    {/* Language Switcher */}
+                    <div className="mt-12 flex items-center justify-center gap-4">
+                        <Link
+                            href="/en"
+                            className={`px-6 py-2 rounded-lg font-medium transition-all ${params.locale === 'en'
+                                    ? 'bg-white/20 text-white'
+                                    : 'text-gray-300 hover:bg-white/10'
+                                }`}
+                        >
+                            English
+                        </Link>
+                        <Link
+                            href="/fr"
+                            className={`px-6 py-2 rounded-lg font-medium transition-all ${params.locale === 'fr'
+                                    ? 'bg-white/20 text-white'
+                                    : 'text-gray-300 hover:bg-white/10'
+                                }`}
+                        >
+                            Français
+                        </Link>
+                        <Link
+                            href="/ar"
+                            className={`px-6 py-2 rounded-lg font-medium transition-all ${params.locale === 'ar'
+                                    ? 'bg-white/20 text-white'
+                                    : 'text-gray-300 hover:bg-white/10'
+                                }`}
+                        >
+                            العربية
+                        </Link>
                     </div>
                 </div>
             </div>

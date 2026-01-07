@@ -11,22 +11,34 @@ export function generateStaticParams() {
 
 export default async function LocaleLayout({
     children,
-    params: { locale }
+    params,
 }: {
     children: React.ReactNode;
     params: { locale: string };
 }) {
+    const { locale } = await Promise.resolve(params);
+
     if (!locales.includes(locale as any)) {
         notFound();
     }
 
     const messages = await getMessages();
+    const dir = locale === 'ar' ? 'rtl' : 'ltr';
+    const fontClass = locale === 'ar' ? 'font-cairo' : 'font-inter';
 
     return (
-        <html lang={locale} dir={locale === 'ar' ? 'rtl' : 'ltr'}>
-            <body className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+        <html lang={locale} dir={dir} suppressHydrationWarning>
+            <body className={`min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 ${fontClass}`}>
                 <NextIntlClientProvider messages={messages}>
-                    {children}
+                    <div className="relative min-h-screen">
+                        {/* Background effects */}
+                        <div className="fixed inset-0 bg-[url('/grid.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))] pointer-events-none opacity-20" />
+
+                        {/* Main content */}
+                        <div className="relative z-10">
+                            {children}
+                        </div>
+                    </div>
                 </NextIntlClientProvider>
             </body>
         </html>
