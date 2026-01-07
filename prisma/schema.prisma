@@ -1,16 +1,16 @@
 // ============================================
 // SmartCV Hub - Database Schema
-// Prisma ORM for PostgreSQL (Vercel Postgres)
+// Prisma ORM for PostgreSQL (Supabase)
 // ============================================
-
-datasource db {
-  provider  = "postgresql"
-  url       = env("POSTGRES_PRISMA_URL") // uses connection pooling
-  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
-}
 
 generator client {
   provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL") // الرابط اللي فيه pgbouncer (للتطبيقات)
+  directUrl = env("DATABASE_URL")        // الرابط المباشر (للميجريشن)
 }
 
 // ==================== USERS ====================
