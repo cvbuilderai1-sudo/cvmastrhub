@@ -1,0 +1,2 @@
+﻿src/app/[locale]/blog/[slug]/page.tsx(30,11): error TS7034: Variable 'paths' implicitly has type 'any[]' in some locations where its type cannot be determined.
+src/app/[locale]/blog/[slug]/page.tsx(42,12): error TS7005: Variable 'paths' implicitly has an 'any[]' type.
