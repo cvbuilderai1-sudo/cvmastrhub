@@ -1,4 +1,10 @@
 {
     "installCommand": "npm install --legacy-peer-deps",
-    "buildCommand": "prisma generate && npm run build"
+    "buildCommand": "prisma generate && npm run build",
+    "build": {
+        "env": {
+            "NEXT_TELEMETRY_DISABLED": "1",
+            "SKIP_ENV_VALIDATION": "1"
+        }
+    }
 }
