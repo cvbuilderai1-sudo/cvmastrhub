@@ -1,0 +1,218 @@
+// ============================================
+// SmartCV Hub - Database Schema
+// Prisma ORM for PostgreSQL (Vercel Postgres)
+// ============================================
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// ==================== USERS ====================
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  emailVerified DateTime?
+  name          String?
+  password      String?   // Hashed with bcrypt
+  image         String?
+  locale        String    @default("en")
+  
+  subscription  Plan      @default(FREE)
+  subscriptionStartDate DateTime?
+  subscriptionEndDate   DateTime?
+  stripeCustomerId      String?   @unique
+  
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  lastLoginAt   DateTime?
+  
+  cvs           CV[]
+  accounts      Account[]
+  sessions      Session[]
+  analytics     Analytics[]
+  aiInteractions AIInteraction[]
+  
+  @@index([email])
+  @@index([subscription])
+}
+
+enum Plan {
+  FREE
+  PREMIUM
+  PRO
+  ENTERPRISE
+}
+
+// ==================== AUTHENTICATION ====================
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@index([userId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@index([userId])
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+// ==================== CV DATA ====================
+
+model CV {
+  id            String   @id @default(cuid())
+  userId        String
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  title         String
+  template      String   @default("modern")
+  locale        String   @default("en")
+  content       Json     @default("{}")
+  
+  atsScore      Int?
+  atsAnalysis   Json?
+  aiSuggestions Json?
+  
+  pdfUrl        String?
+  docxUrl       String?
+  
+  status        String   @default("draft")
+  isPublic      Boolean  @default(false)
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  lastModified  DateTime @updatedAt
+  
+  versions      CVVersion[]
+  exports       Export[]
+  
+  @@index([userId])
+  @@index([status])
+  @@index([createdAt])
+}
+
+model CVVersion {
+  id        String   @id @default(cuid())
+  cvId      String
+  cv        CV       @relation(fields: [cvId], references: [id], onDelete: Cascade)
+  
+  content   Json
+  changelog String?
+  createdAt DateTime @default(now())
+  
+  @@index([cvId])
+  @@index([createdAt])
+}
+
+// ==================== EXPORT & FILES ====================
+
+model Export {
+  id        String   @id @default(cuid())
+  cvId      String
+  cv        CV       @relation(fields: [cvId], references: [id], onDelete: Cascade)
+  
+  format    String
+  fileUrl   String
+  fileSize  Int?
+  
+  createdAt DateTime @default(now())
+  
+  @@index([cvId])
+  @@index([createdAt])
+}
+
+// ==================== AI INTERACTIONS ====================
+
+model AIInteraction {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  cvId      String?
+  
+  type      String
+  prompt    String   @db.Text
+  response  String   @db.Text
+  tokens    Int?
+  
+  model     String
+  cost      Float?
+  
+  createdAt DateTime @default(now())
+  
+  @@index([userId])
+  @@index([type])
+  @@index([createdAt])
+}
+
+// ==================== ANALYTICS ====================
+
+model Analytics {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  eventType String
+  metadata  Json?
+  
+  createdAt DateTime @default(now())
+  
+  @@index([userId])
+  @@index([eventType])
+  @@index([createdAt])
+}
+
+// ==================== PAYMENTS ====================
+
+model Subscription {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  
+  plan      String
+  status    String
+  
+  stripeSubscriptionId String? @unique
+  stripePriceId        String?
+  stripeCurrentPeriodEnd DateTime?
+  
+  startDate DateTime
+  endDate   DateTime?
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@index([userId])
+  @@index([status])
+}
