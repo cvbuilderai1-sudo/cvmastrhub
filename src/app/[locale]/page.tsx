@@ -1,7 +1,9 @@
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 
-export default function HomePage({ params }: { params: { locale: string } }) {
+export default async function HomePage({ params }: { params: Promise<{ locale: string }> }) {
+    const { locale } = await params;
+
     return (
         <div className="min-h-screen flex flex-col items-center justify-center px-4">
             {/* Hero Section */}
@@ -19,7 +21,7 @@ export default function HomePage({ params }: { params: { locale: string } }) {
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
                         {/* CV Builder */}
                         <Link
-                            href={`/${params.locale}/tools/cv-builder`}
+                            href={`/${locale}/tools/cv-builder`}
                             className="group relative backdrop-blur-lg bg-white/5 border border-white/10 rounded-2xl p-8 hover:bg-white/10 hover:border-white/20 transition-all duration-300 transform hover:scale-105"
                         >
                             <div className="text-5xl mb-4">📝</div>
@@ -31,7 +33,7 @@ export default function HomePage({ params }: { params: { locale: string } }) {
 
                         {/* Photo Editor */}
                         <Link
-                            href={`/${params.locale}/tools/photo-editor`}
+                            href={`/${locale}/tools/photo-editor`}
                             className="group relative backdrop-blur-lg bg-white/5 border border-white/10 rounded-2xl p-8 hover:bg-white/10 hover:border-white/20 transition-all duration-300 transform hover:scale-105"
                         >
                             <div className="text-5xl mb-4">📸</div>
@@ -43,7 +45,7 @@ export default function HomePage({ params }: { params: { locale: string } }) {
 
                         {/* ATS Analyzer */}
                         <Link
-                            href={`/${params.locale}/tools/cv-analyzer`}
+                            href={`/${locale}/tools/cv-analyzer`}
                             className="group relative backdrop-blur-lg bg-white/5 border border-white/10 rounded-2xl p-8 hover:bg-white/10 hover:border-white/20 transition-all duration-300 transform hover:scale-105"
                         >
                             <div className="text-5xl mb-4">🎯</div>
@@ -58,27 +60,27 @@ export default function HomePage({ params }: { params: { locale: string } }) {
                     <div className="mt-12 flex items-center justify-center gap-4">
                         <Link
                             href="/en"
-                            className={`px-6 py-2 rounded-lg font-medium transition-all ${params.locale === 'en'
-                                    ? 'bg-white/20 text-white'
-                                    : 'text-gray-300 hover:bg-white/10'
+                            className={`px-6 py-2 rounded-lg font-medium transition-all ${locale === 'en'
+                                ? 'bg-white/20 text-white'
+                                : 'text-gray-300 hover:bg-white/10'
                                 }`}
                         >
                             English
                         </Link>
                         <Link
                             href="/fr"
-                            className={`px-6 py-2 rounded-lg font-medium transition-all ${params.locale === 'fr'
-                                    ? 'bg-white/20 text-white'
-                                    : 'text-gray-300 hover:bg-white/10'
+                            className={`px-6 py-2 rounded-lg font-medium transition-all ${locale === 'fr'
+                                ? 'bg-white/20 text-white'
+                                : 'text-gray-300 hover:bg-white/10'
                                 }`}
                         >
                             Français
                         </Link>
                         <Link
                             href="/ar"
-                            className={`px-6 py-2 rounded-lg font-medium transition-all ${params.locale === 'ar'
-                                    ? 'bg-white/20 text-white'
-                                    : 'text-gray-300 hover:bg-white/10'
+                            className={`px-6 py-2 rounded-lg font-medium transition-all ${locale === 'ar'
+                                ? 'bg-white/20 text-white'
+                                : 'text-gray-300 hover:bg-white/10'
                                 }`}
                         >
                             العربية

@@ -1,12 +1,14 @@
 import Link from 'next/link';
 
-export default function PhotoEditorPage({ params }: { params: { locale: string } }) {
+export default async function PhotoEditorPage({ params }: { params: Promise<{ locale: string }> }) {
+    const { locale } = await params;
+
     return (
         <div className="min-h-screen p-8">
             <div className="max-w-7xl mx-auto">
                 <div className="flex items-center justify-between mb-8">
                     <Link
-                        href={`/${params.locale}`}
+                        href={`/${locale}`}
                         className="text-white/70 hover:text-white transition-colors flex items-center gap-2"
                     >
                         ← Back to Home
