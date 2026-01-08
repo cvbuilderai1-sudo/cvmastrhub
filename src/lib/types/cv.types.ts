@@ -12,6 +12,15 @@ export interface ContactSection {
     website: string;
     photoUrl: string; // ✅ URL فقط
     photoBase64?: string; // Temporary only, NOT persisted
+
+    // NEW FIELDS
+    middleName?: string;
+    phoneSecondary?: string;
+    twitter?: string;
+    portfolio?: string;
+    github?: string;
+    showPhoto: boolean;
+    phoneCountry: string;
 }
 
 export interface PersonalStatementSection {
