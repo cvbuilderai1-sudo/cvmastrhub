@@ -5,6 +5,7 @@ import { useCVStore, selectActiveStep, selectContact } from '@/store/useCVStore'
 import { Button, Input, Card, CardHeader, CardTitle, CardContent } from '@/components/ui';
 import { SmartTabBar } from './SmartTabBar';
 import { SmartImageUploader } from '@/components/photo-editor';
+import { PersonalStatementStep, WorkHistoryStep } from './steps';
 import { detectAllCompletedSteps } from '@/lib/cv/stepCompletion';
 
 const STEPS = [
@@ -175,8 +176,14 @@ export const CVFormWizard = React.memo(() => {
                             </div>
                         )}
 
+                        {/* Step 1: Personal Statement */}
+                        {activeStep === 1 && <PersonalStatementStep />}
+
+                        {/* Step 2: Work History */}
+                        {activeStep === 2 && <WorkHistoryStep />}
+
                         {/* Other steps - Coming Soon */}
-                        {activeStep > 0 && (
+                        {activeStep > 2 && (
                             <div className="text-center py-12">
                                 <div className="text-6xl mb-4">{STEPS[activeStep].icon}</div>
                                 <h3 className="text-2xl font-semibold text-white mb-2">
