@@ -5,7 +5,16 @@ import { useCVStore, selectActiveStep, selectContact } from '@/store/useCVStore'
 import { Button, Input, Card, CardHeader, CardTitle, CardContent } from '@/components/ui';
 import { SmartTabBar } from './SmartTabBar';
 import { SmartImageUploader } from '@/components/photo-editor';
-import { PersonalStatementStep, WorkHistoryStep } from './steps';
+import {
+    PersonalStatementStep,
+    WorkHistoryStep,
+    EducationStep,
+    QualificationsStep,
+    ReferencesStep,
+    SkillsStep,
+    LanguagesStep,
+    ReviewStep,
+} from './steps';
 import { detectAllCompletedSteps } from '@/lib/cv/stepCompletion';
 
 const STEPS = [
@@ -182,18 +191,23 @@ export const CVFormWizard = React.memo(() => {
                         {/* Step 2: Work History */}
                         {activeStep === 2 && <WorkHistoryStep />}
 
-                        {/* Other steps - Coming Soon */}
-                        {activeStep > 2 && (
-                            <div className="text-center py-12">
-                                <div className="text-6xl mb-4">{STEPS[activeStep].icon}</div>
-                                <h3 className="text-2xl font-semibold text-white mb-2">
-                                    {STEPS[activeStep].title}
-                                </h3>
-                                <p className="text-gray-300">
-                                    This section is coming soon. Continue to see the preview!
-                                </p>
-                            </div>
-                        )}
+                        {/* Step 3: Education */}
+                        {activeStep === 3 && <EducationStep />}
+
+                        {/* Step 4: Skills */}
+                        {activeStep === 4 && <SkillsStep />}
+
+                        {/* Step 5: Languages */}
+                        {activeStep === 5 && <LanguagesStep />}
+
+                        {/* Step 6: Qualifications */}
+                        {activeStep === 6 && <QualificationsStep />}
+
+                        {/* Step 7: References */}
+                        {activeStep === 7 && <ReferencesStep />}
+
+                        {/* Step 8: Review */}
+                        {activeStep === 8 && <ReviewStep />}
                     </CardContent>
                 </Card>
             </div>

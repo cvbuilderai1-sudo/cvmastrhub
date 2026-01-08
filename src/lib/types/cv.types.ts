@@ -61,7 +61,7 @@ export interface SkillEntry {
 export interface LanguageEntry {
     id: string;
     name: string;
-    level: 'native' | 'fluent' | 'intermediate' | 'basic';
+    level: 'native' | 'fluent' | 'professional' | 'intermediate' | 'basic';
     levelScore: 1 | 2 | 3 | 4 | 5;
 }
 
