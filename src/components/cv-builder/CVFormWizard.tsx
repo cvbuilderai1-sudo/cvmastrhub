@@ -1,8 +1,11 @@
 'use client';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useCVStore, selectActiveStep, selectContact } from '@/store/useCVStore';
 import { Button, Input, Card, CardHeader, CardTitle, CardContent } from '@/components/ui';
+import { SmartTabBar } from './SmartTabBar';
+import { SmartImageUploader } from '@/components/photo-editor';
+import { detectAllCompletedSteps } from '@/lib/cv/stepCompletion';
 
 const STEPS = [
     { id: 0, title: 'Contact Info', icon: '👤' },
@@ -19,9 +22,17 @@ const STEPS = [
 export const CVFormWizard = React.memo(() => {
     const activeStep = useCVStore(selectActiveStep);
     const contact = useCVStore(selectContact);
+    const sections = useCVStore((state) => state.sections);
     const setMetadata = useCVStore((state) => state.setMetadata);
     const updateSection = useCVStore((state) => state.updateSection);
+    const setPhotoTemporary = useCVStore((state) => state.setPhotoTemporary);
     const recalculateATS = useCVStore((state) => state.recalculateATS);
+
+    // Detect completion status
+    const { completed, partial } = useMemo(
+        () => detectAllCompletedSteps(sections),
+        [sections]
+    );
 
     const handleNext = () => {
         if (activeStep < STEPS.length - 1) {
@@ -36,35 +47,32 @@ export const CVFormWizard = React.memo(() => {
         }
     };
 
+    const handleStepClick = (stepId: number) => {
+        setMetadata({ activeStep: stepId });
+        recalculateATS();
+    };
+
     const handleContactChange = (field: string, value: string) => {
         updateSection('contact', { [field]: value });
     };
 
+    const handlePhotoSelect = (base64: string) => {
+        setPhotoTemporary(base64);
+    };
+
     return (
-        <div className="h-full flex flex-col">
-            {/* Progress Steps */}
-            <div className="backdrop-blur-lg bg-white/5 border-b border-white/20 p-4">
-                <div className="flex items-center gap-2 overflow-x-auto">
-                    {STEPS.map((step, index) => (
-                        <button
-                            key={step.id}
-                            onClick={() => setMetadata({ activeStep: step.id })}
-                            className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all whitespace-nowrap ${activeStep === step.id
-                                    ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white'
-                                    : activeStep > step.id
-                                        ? 'bg-white/10 text-white'
-                                        : 'bg-white/5 text-gray-400'
-                                }`}
-                        >
-                            <span>{step.icon}</span>
-                            <span className="hidden md:inline">{step.title}</span>
-                        </button>
-                    ))}
-                </div>
-            </div>
+        <div className="h-full flex flex-col gap-4">
+            {/* Smart Tab Bar */}
+            <SmartTabBar
+                activeStep={activeStep}
+                completedSteps={completed}
+                partialSteps={partial}
+                stepsWithErrors={[]}
+                onStepClick={handleStepClick}
+            />
 
             {/* Form Content */}
-            <div className="flex-1 overflow-y-auto p-6">
+            <div className="flex-1 overflow-y-auto px-6">
                 <Card>
                     <CardHeader>
                         <CardTitle>{STEPS[activeStep].title}</CardTitle>
@@ -72,7 +80,16 @@ export const CVFormWizard = React.memo(() => {
                     <CardContent>
                         {/* Step 0: Contact Info */}
                         {activeStep === 0 && (
-                            <div className="space-y-4">
+                            <div className="space-y-6">
+                                {/* Photo Upload */}
+                                <div className="flex justify-center mb-6">
+                                    <SmartImageUploader
+                                        onPhotoSelect={handlePhotoSelect}
+                                        currentPhoto={contact.photoBase64 || contact.photoUrl}
+                                        size={128}
+                                    />
+                                </div>
+
                                 <div>
                                     <label className="block text-sm font-medium text-gray-200 mb-2">
                                         Full Name *
@@ -175,7 +192,7 @@ export const CVFormWizard = React.memo(() => {
             </div>
 
             {/* Navigation Buttons */}
-            <div className="backdrop-blur-lg bg-white/5 border-t border-white/20 p-4">
+            <div className="backdrop-blur-lg bg-white/5 border-t border-white/20 px-6 py-4">
                 <div className="flex items-center justify-between">
                     <Button
                         variant="secondary"
@@ -189,10 +206,7 @@ export const CVFormWizard = React.memo(() => {
                         Step {activeStep + 1} of {STEPS.length}
                     </div>
 
-                    <Button
-                        onClick={handleNext}
-                        disabled={activeStep === STEPS.length - 1}
-                    >
+                    <Button onClick={handleNext} disabled={activeStep === STEPS.length - 1}>
                         Next →
                     </Button>
                 </div>
