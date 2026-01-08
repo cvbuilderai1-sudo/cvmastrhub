@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Inter, Cairo } from 'next/font/google';
+import { Toaster } from 'sonner';
 import './globals.css';
 
 // Fonts
@@ -36,6 +37,13 @@ export default function RootLayout({
         <html lang="en" suppressHydrationWarning>
             <body className={`${inter.variable} ${cairo.variable} antialiased`}>
                 {children}
+                <Toaster
+                    position="bottom-right"
+                    theme="dark"
+                    richColors
+                    closeButton
+                    duration={3000}
+                />
             </body>
         </html>
     );
